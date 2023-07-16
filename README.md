@@ -20,14 +20,14 @@ BackUpLogs v2 is made for the game [PavlovVR](https://www.vankrupt.com/) to be u
 ### SETTINGS
 To change how the script works for you there is variables located on the top of the script it is important to set them b4 you start thhe script the first time 
 
-> **backUpDir**="/home/steam/logs" 
-    - where to u want the saved files to be placed use full path no ~ 
-**whereIsThisScript**=$(pwd)
-    - it will try and get the location on its own if left like this still need to test it but u can just enter where this folder is 
-**webHook**="true"
-    - webhook enabled or not (true <> false) 
-**icon**='https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png'
-    - works best if u use a discord url 
+> **backUpDir**="/home/steam/logs" <br>
+    - where to u want the saved files to be placed use full path no ~ <br><br>
+**whereIsThisScript**=$(pwd)<br>
+    - it will try and get the location on its own if left like this still need to test it but u can just enter where this folder is <br><br>
+**webHook**="true"<br>
+    - webhook enabled or not (true <> false) <br><br>
+**icon**='https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png'<br>
+    - works best if u use a discord url <br><br>
 <hr>
 ### INSTALL
 
