@@ -4,12 +4,12 @@
 
 backUpDir="/home/steam/logs"
 
-whereIsThisScript="/home/steam/code/backupLogs/"
+whereIsThisScript=$(pwd)
 
 webHook="true"
 
     #works best if u use a discord url 
-icon="https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png"
+icon='https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png'
 
     #finding all servers installed 
 servers=( $(ls /home/steam/*/PavlovServer.sh | awk -F "\/" '{print "/" $2 "/" $3 "/" $4}' ) )
@@ -54,11 +54,11 @@ do
     echo '..............' | tee -a hook 
 done
 
-https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png
+
 
 if [ "$webHook" = "true" ]; then
         #WEBHOOK code sourced from here https://github.com/fieu/discord.sh
-    bash "${whereIsThisScript}discord.sh" --webhook-url "$webhook" --title "SERVER LOG BACKUP BOT \n Bot by JTWP" --thumbnail "${icon} " --text "this script can be found at [GITHUB](https://github.com/JTWP-org/backUpLogs2) " --url "http://JTWP.org" --description "$(jq -Rs . <hook | cut -c 2- | rev | cut -c 2- | rev)"   | tee -a hook  
+    bash "${whereIsThisScript}/discord.sh" --webhook-url "$webhook" --title "SERVER LOG BACKUP BOT \n Bot by JTWP" --thumbnail "${icon} " --text "this script can be found at [GITHUB](https://github.com/JTWP-org/backUpLogs2) " --url "http://JTWP.org" --description "$(jq -Rs . <hook | cut -c 2- | rev | cut -c 2- | rev)"   | tee -a hook  
 fi
 
 
