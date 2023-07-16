@@ -40,3 +40,7 @@ I want mine to run every day at 8 AM so i will use ..
 Now we will need sudo to add some permissions to our scripts 
 - `sudo chmod +x `
 #### End of script for now 
+
+### CREDIT
+<sub>Code i didnt make </sub> 
+- [Discord.sh](https://github.com/fieu/discord.sh) 
