@@ -31,6 +31,12 @@ To change how the script works for you there is variables located on the top of 
 <hr>
 ### INSTALL
 
+your going to want to go to the DIR where u want the script 
+
+`git clone https://github.com/JTWP-org/backUpLogs2.git`
+
+
+
  The script uses crontab to run on a set timer <br>
 -  `crontab -e` <br>
     [this will open a text file where u can input your script and time to wait for help with setting the timer [HERE IS A TOOL](https://crontab.cronhub.io/) <br>
