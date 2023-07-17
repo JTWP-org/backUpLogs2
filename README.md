@@ -39,7 +39,7 @@ now we have a clone cd into it with `cd backUpLogs2`
 
 then we need to give it perms to run 
 
-`sudo chmod +x bkUp.sh ; sudo chmod +x discord.sh 
+`sudo chmod +x bkUp.sh ; sudo chmod +x discord.sh` 
 
  The script uses crontab to run on a set timer <br>
 -  `crontab -e` <br>
