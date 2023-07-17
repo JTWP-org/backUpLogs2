@@ -18,7 +18,7 @@ BackUpLogs v2 is made for the game [PavlovVR](https://www.vankrupt.com/) to be u
 
 <hr>
 ### SETTINGS
-To change how the script works for you there is variables located on the top of the script it is important to set them b4 you start thhe script the first time 
+To change how the script works for you there is variables located in the file Settings.sh it is important to set them b4 you start thhe script the first time 
 
 > **backUpDir**="/home/steam/logs" <br>
     - where to u want the saved files to be placed use full path no ~ <br><br>
