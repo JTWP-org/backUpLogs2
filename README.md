@@ -35,7 +35,11 @@ your going to want to go to the DIR where u want the script
 
 `git clone https://github.com/JTWP-org/backUpLogs2.git`
 
+now we have a clone cd into it with `cd backUpLogs2`
 
+then we need to give it perms to run 
+
+`sudo chmod +x bkUp.sh ; sudo chmod +x discord.sh 
 
  The script uses crontab to run on a set timer <br>
 -  `crontab -e` <br>
