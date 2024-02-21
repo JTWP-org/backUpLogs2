@@ -1,3 +1,4 @@
+
 # BackUpLogs v2
 
 [![JTWP](https://media.moddb.com/images/members/4/3380/3379652/profile/Discord_button.png)](https://www.jtwp.org)
@@ -33,49 +34,53 @@ To tailor the script to your needs, modify the variables in the `Settings.sh` fi
   Ideally, use a Discord URL.
 
 ---
-I see the issue now. Let's format the installation instructions correctly for the README.md file on GitHub. When you write it on GitHub, you need to ensure that the code blocks are correctly formatted with triple backticks (```). Here's how you should format it:
-
-markdown
 
 ## INSTALLATION INSTRUCTIONS
 
 ### Step 1: Clone the Repository
-First, navigate to the directory where you want the script to be located. Then, use the following command to clone the repository:
 
+Navigate to the directory where you want the script to be located and clone the repository:
+
+```bash
 git clone https://github.com/JTWP-org/backUpLogs2.git
-
-csharp
-
+```
 
 ### Step 2: Change Directory
-After cloning, change into the new directory:
 
+Change into the newly cloned directory:
+
+```bash
 cd backUpLogs2
-
-mathematica
-
+```
 
 ### Step 3: Set Permissions
-Set execute permissions for the scripts:
 
+Give execute permissions to the scripts:
+
+```bash
 sudo chmod +x bkUp.sh discord.sh
-
-vbnet
-
+```
 
 ### Step 4: Schedule with Crontab
-The script is designed to run at a set interval using crontab. To edit your crontab configuration:
 
+The script is set to run at specified intervals using crontab. To edit your crontab configuration:
+
+```bash
 crontab -e
+```
 
-vbnet
+This command opens a text editor for the crontab file. Note: Use absolute paths as the `~` shortcut does not work here.
 
-This opens a text editor where you can input your script and the timing for execution. For help with setting the timer, you can use an online crontab tool. The `~` shortcut for the home directory does not work in the crontab file, so you need to use absolute paths.
+To run the script every day at 8 AM, for example, add the following line:
 
-For example, to run the script every day at 8 AM, add the following line to your crontab:
-
+```bash
 0 8 * * * bash /absolute/path/to/backUpLogs2/bkUp.sh
+```
 
-vbnet
+Replace `/absolute/path/to/backUpLogs2/` with the full path to where `bkUp.sh` is located.
 
-Replace `/absolute/path/to/backUpLogs2/` with the full path to where `bkUp.sh` is locate
+---
+
+### Credits and Acknowledgments
+
+Credit for portions of this code, including the `discord.sh` script, goes to external sources.
