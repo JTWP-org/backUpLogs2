@@ -83,4 +83,4 @@ Replace `/absolute/path/to/backUpLogs2/` with the full path to where `bkUp.sh` i
 
 ### Credits and Acknowledgments
 
-Credit for portions of this code, including the `discord.sh` script, goes to external sources.
+Credit for portions of this code, including the `discord.sh` script, goes to [external sources.](https://github.com/fieu/discord.sh)https://github.com/fieu/discord.sh
