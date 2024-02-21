@@ -22,8 +22,8 @@ To change how the script works for you there is variables located in the file Se
 
 > **backUpDir**="/home/steam/logs" <br>
     - where to u want the saved files to be placed use full path no ~ <br><br>
-**whereIsThisScript**=$(pwd)<br>
-    - it will try and get the location on its own if left like this still need to test it but u can just enter where this folder is <br><br>
+**whereIsThisScript**=""<br>
+    -WHERE IS THIS SCRIPT ISNTALLED  <br><br>
 **webHook**="true"<br>
     - webhook enabled or not (true <> false) <br><br>
 **icon**='https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png'<br>
