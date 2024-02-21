@@ -5,58 +5,83 @@
 backUpDir="/home/steam/logs"
 whereIsThisScript="/home/steam/backUpLogs2"
 webHook="true"
+enableUserActionLogWebhook="true"  # Toggle this boolean to enable/disable user action log webhook
 
-# works best if u use a discord url
+# Works best if you use a Discord URL
 icon='https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png'
 
-# finding all servers installed
-servers=( $(ls /home/steam/*/PavlovServer.sh | awk -F "\/" '{print "/" $2 "/" $3 "/" $4}' ) )
+# Finding all servers installed
+servers=( $(ls /home/steam/*/PavlovServer.sh | awk -F "/" '{print "/" $2 "/" $3 "/" $4}') )
 
-# loading webhook variable from .WEBHOOK FILE
+# Loading webhook variable from .WEBHOOK FILE
 source .WEBHOOK
 
-# update server
+# Update server
 sudo apt-get update
-
-echo """  __ServerStuff__
+echo "  __ServerStuff__
     Uptime: $(uptime -p)
-    server updated """ | tee hook
+    server updated " | tee hook
 echo '..............' | tee -a hook
 
-# loop for data formatting and collection
+# Loop for data formatting and collection
 for server in "${servers[@]}"
 do
-    # build files if missing
-    serverFldr=$(echo ${server} | cut -d/ -f 4-  )
+    serverFldr=$(echo ${server} | cut -d/ -f 4-)
+    echo ""
+    echo ""
+    echo 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx START SERVER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' | tee -a hook
+    name=$(cat "${server}/Pavlov/Saved/Config/LinuxServer/Game.ini" | grep 'Name' | awk -F "=" '{print $2}')
+
+    # Check if it's a PCVR server
+
+    if grep -q 'SERVER BUILD' "/home/steam/${serverFldr}/Pavlov/Saved/Logs/Pavlov.log"; then
+        # If 'SERVER BUILD' is found in the log file
+        vers="SHACK SERVER - "
+        echo "the \"${name}\" is located on server in the /home/steam/${server} and is a ${vers}"
+        ~/Steam/steamcmd.sh +force_install_dir "/home/steam/${serverFldr}" +login anonymous +app_update 622970 -beta shack +exit | tee -a hook
+    else
+        vers="PCVR SERVER -  "
+        echo "${name} is located on server in the /home/steam/${server} and is a ${vers}"
+        ~/Steam/steamcmd.sh +force_install_dir "/home/steam/${serverFldr}" +login anonymous +app_update 622970 -beta default +exit | tee -a hook
+
+    fi
+    # Build files if missing
     mkdir -p "${backUpDir}/${serverFldr}/Pavlov/Saved/Logs/"
 
-    # gets name for server from Game.ini
-    name=$( cat "${server}/Pavlov/Saved/Config/LinuxServer/Game.ini" | grep 'Name' | awk -F "=" '{print $2}' )
-
-    printf '%s\n' """ Starting backup for logs on server:
-      **${name}**
-       *$(date +%x" "%r)*
-     """ | tee -a hook
+    printf " Starting backup for logs on server:
+      ${name}
+       $(date +%x ' ' %r)
+     " | tee -a hook
 
     echo ""
-    printf '%s\n' " \`logs to copy: $(find ${server}/Pavlov/Saved/Logs/ -type f -name 'Pavlov-backup-*.log')\` " | tee -a hook
-    
-    # Find and move the log files
-    find "${server}/Pavlov/Saved/Logs/" -type f -name 'Pavlov-backup-*.log' -exec sh -c '
-        for file; do
-            dest="${backUpDir}$(echo ${server} | cut -d/ -f 4-)/$(dirname "${file#${server}/Pavlov/Saved/Logs/}")"
-            mkdir -p "$dest"
-            mv "$file" "$dest"
-        done
-    ' sh {} +
+    printf " \`logs to copy: $(ls ${server}/Pavlov/Saved/Logs/ | grep Pavlov-backup-* )\` " | tee -a hook
+    echo "" | tee -a hook
+    # Gets all the current log backups in each server dir then move them to dest dir
+    ls ${server}/Pavlov/Saved/Logs/ | grep Pavlov-backup* | xargs -I % mv "${server}/Pavlov/Saved/Logs/%" "${backUpDir}$(echo ${server} | cut -d/ -f 7-)" | tee -a hook
+    echo 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx END SERVER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' | tee -a hook
+    echo "" | tee -a hook
+    echo "" | tee -a hook
 
-    echo "Finished with - ${name}" | tee -a hook
-    echo '..............' | tee -a hook
+
+    echo
 done
 
-if [ "$webHook" = "true" ]; then
+current_date=$(date +%Y-%m-%d)
+filename="${current_date}.log"
+cp hook $filename
+filename0="${current_date}-admin-jb.log"
+cp "/home/steam/pavlov-bot2/user_action_log.txt" "${filename0}"
+filename1="${current_date}-admin-jtwp.log"
+cp "/home/steam/pavlov-bot/user_action_log.txt" "${filename1}"
+
+
+bash "${whereIsThisScript}/discord.sh" --webhook-url "$webhook" --title "SERVER LOG BACKUP BOT \n Bot by JTWP" --thumbnail "${icon} " --text "this script can be found at [GITHUB](https://github.com/JTWP-org/backUpLogs2) " --url "http://JTWP.org" --description "its a server log / stats backup sscript that will aslo update your pavlov servers shack / pc it will detect what the server is  update the main server  and make your coffee" | tee -a hook
+bash "${whereIsThisScript}/discord.sh"  --webhook-url="$webhook"   --file "$filename"   --text "here is a log for daily backups"
+
+if [ "$webHook" = "true" ] && [ "$enableUserActionLogWebhook" = "true" ]; then
     # WEBHOOK code sourced from here https://github.com/fieu/discord.sh
-    bash "${whereIsThisScript}/discord.sh" --webhook-url "$webhook" --title "SERVER LOG BACKUP BOT \n Bot by JTWP" --thumbnail "${icon} " --text "this script can be found at [GITHUB](https://github.com/JTWP-org/backUpLogs2) " --url "http://JTWP.org" --descrip>fi
+    bash "${whereIsThisScript}/discord.sh"  --webhook-url="$webhook"   --file "$filename0"   --text "Pavlov-bot activity log JB server"
+    bash "${whereIsThisScript}/discord.sh"  --webhook-url="$webhook"   --file "$filename1"   --text "Pavlov-bot activity log JTWP server"
 fi
 
 echo "" > hook
