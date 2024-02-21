@@ -29,28 +29,49 @@ To change how the script works for you there is variables located in the file Se
 **icon**='https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png'<br>
     - works best if u use a discord url <br><br>
 <hr>
-### INSTALL
+Sure, I can help clarify and fix the installation instructions for your script. Here's a revised version:
+INSTALLATION INSTRUCTIONS
+Step 1: Clone the Repository
 
-your going to want to go to the DIR where u want the script 
+First, navigate to the directory where you want the script to be located. Then, use the following command to clone the repository:
 
-`git clone https://github.com/JTWP-org/backUpLogs2.git`
+bash
 
-now we have a clone cd into it with `cd backUpLogs2`
+git clone https://github.com/JTWP-org/backUpLogs2.git
 
-then we need to give it perms to run 
+Step 2: Change Directory
 
-`sudo chmod +x bkUp.sh ; sudo chmod +x discord.sh` 
+After cloning, change into the new directory:
 
- The script uses crontab to run on a set timer <br>
--  `crontab -e` <br>
-    [this will open a text file where u can input your script and time to wait for help with setting the timer [HERE IS A TOOL](https://crontab.cronhub.io/) <br>
-    your going to add your time value the tyype of program it is (bash) then a full path to the script ~ as a sub for /home/steam wont work here <br>
-I want mine to run every day at 8 AM so i will use ..
-- `echo "0 8 * * * bash /home/steam/code/backupLogs-pub/bkUp.sh`
-Now we will need sudo to add some permissions to our scripts 
-- `sudo chmod +x `
-#### End of script for now 
+bash
 
-### CREDIT
-<sub>Code i didnt make </sub> 
-- [Discord.sh](https://github.com/fieu/discord.sh) 
+cd backUpLogs2
+
+Step 3: Set Permissions
+
+Set execute permissions for the scripts:
+
+bash
+
+sudo chmod +x bkUp.sh discord.sh
+
+Step 4: Schedule with Crontab
+
+The script is designed to run at a set interval using crontab. To edit your crontab configuration:
+
+bash
+
+crontab -e
+
+This opens a text editor where you can input your script and the timing for execution. Note: For help with setting the timer, you can use an online crontab tool. The ~ shortcut for the home directory does not work in the crontab file, so you need to use absolute paths.
+
+For example, to run the script every day at 8 AM, add the following line to your crontab:
+
+bash
+
+0 8 * * * bash /absolute/path/to/backUpLogs2/bkUp.sh
+
+Replace /absolute/path/to/backUpLogs2/ with the full path to where bkUp.sh is located on your system.
+Credits and Acknowledgments
+
+Credit for parts of this code goes to external sources, especially for the discord.sh script.
