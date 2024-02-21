@@ -32,37 +32,47 @@ do
     echo 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx START SERVER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' | tee -a hook
     name=$(cat "${server}/Pavlov/Saved/Config/LinuxServer/Game.ini" | grep 'Name' | awk -F "=" '{print $2}')
 
-    # Check if it's a PCVR server
+    # Check if the log file exists for the server
+    if [[ -e "/home/steam/${serverFldr}/Pavlov/Saved/Logs/Pavlov.log" ]]; then
+        # If the log file exists, check if 'SERVER BUILD' is found in the log
+        if grep -q 'SERVER BUILD' "/home/steam/${serverFldr}/Pavlov/Saved/Logs/Pavlov.log"; then
+            # If 'SERVER BUILD' is found in the log file
+            vers="SHACK SERVER - "
+            echo "the \"${name}\" is located on server in the /home/steam/${server} and is a ${vers}" | tee -a hook
+            ~/Steam/steamcmd.sh +force_install_dir "/home/steam/${serverFldr}" +login anonymous +app_update 622970 -beta shack +exit | tee -a hook
+        else
+            # If 'SERVER BUILD' is not found in the log file
+            vers="PCVR SERVER -  "
+            echo "${name} is located on server in the /home/steam/${server} and is a ${vers}" | tee -a hook
+            ~/Steam/steamcmd.sh +force_install_dir "/home/steam/${serverFldr}" +login anonymous +app_update 622970 -beta default +exit | tee -a hook
+        fi
+        # Build files if missing
+        mkdir -p "${backUpDir}/${serverFldr}/Pavlov/Saved/Logs/"
+        mkdir -p "${backUpDir}/${serverFldr}/Pavlov/Saved/Stats/"
+        printf " Starting backup for logs on server:
+          ${name}
+           $(date +%x ' ' %r)
+         " | tee -a hook
 
-    if grep -q 'SERVER BUILD' "/home/steam/${serverFldr}/Pavlov/Saved/Logs/Pavlov.log"; then
-        # If 'SERVER BUILD' is found in the log file
-        vers="SHACK SERVER - "
-        echo "the \"${name}\" is located on server in the /home/steam/${server} and is a ${vers}"
-        ~/Steam/steamcmd.sh +force_install_dir "/home/steam/${serverFldr}" +login anonymous +app_update 622970 -beta shack +exit | tee -a hook
+        echo ""
+        printf " \`logs to copy: $(ls ${server}/Pavlov/Saved/Logs/ | grep Pavlov-backup-* )\` " | tee -a hook
+        echo "" | tee -a hook
+        # Gets all the current log backups in each server dir then move them to dest dir
+        ls ${server}/Pavlov/Saved/Logs/ | grep Pavlov-backup* | xargs -I % mv "${server}/Pavlov/Saved/Logs/%" "${backUpDir}$(echo ${server} | cut -d/ -f 7-)" | tee -a hook
+        echo ""
+        printf " \`logs to copy: $(ls ${server}/Pavlov/Saved/Stats/)\` " | tee -a hook
+        echo "" | tee -a hook
+        # Gets all the current log backups in each server dir then move them to dest dir
+        ls ${server}/Pavlov/Saved/Stats/ | xargs -I % mv "${server}/Pavlov/Saved/Stats/%" "${backUpDir}$(echo ${server} | cut -d/ -f 7-)" | tee -a hook
+
     else
-        vers="PCVR SERVER -  "
-        echo "${name} is located on server in the /home/steam/${server} and is a ${vers}"
-        ~/Steam/steamcmd.sh +force_install_dir "/home/steam/${serverFldr}" +login anonymous +app_update 622970 -beta default +exit | tee -a hook
-
+        # If the log file does not exist for the server
+        echo "Error: Log file not found for server ${serverFldr}. Skipping server update." | tee -a hook
     fi
-    # Build files if missing
-    mkdir -p "${backUpDir}/${serverFldr}/Pavlov/Saved/Logs/"
 
-    printf " Starting backup for logs on server:
-      ${name}
-       $(date +%x ' ' %r)
-     " | tee -a hook
-
-    echo ""
-    printf " \`logs to copy: $(ls ${server}/Pavlov/Saved/Logs/ | grep Pavlov-backup-* )\` " | tee -a hook
-    echo "" | tee -a hook
-    # Gets all the current log backups in each server dir then move them to dest dir
-    ls ${server}/Pavlov/Saved/Logs/ | grep Pavlov-backup* | xargs -I % mv "${server}/Pavlov/Saved/Logs/%" "${backUpDir}$(echo ${server} | cut -d/ -f 7-)" | tee -a hook
     echo 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx END SERVER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' | tee -a hook
     echo "" | tee -a hook
     echo "" | tee -a hook
-
-
     echo
 done
 
