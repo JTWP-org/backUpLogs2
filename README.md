@@ -29,7 +29,7 @@ To change how the script works for you there is variables located in the file Se
 **icon**='https://cdn.discordapp.com/attachments/932110907729920080/1130204308315578459/6328646.png'<br>
     - works best if u use a discord url <br><br>
 <hr>
-Sure, I can help clarify and fix the installation instructions for your script. Here's a revised version:
+
 INSTALLATION INSTRUCTIONS
 Step 1: Clone the Repository
 
